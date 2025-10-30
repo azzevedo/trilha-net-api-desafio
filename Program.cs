@@ -6,7 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<OrganizadorContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
+{
+    var sql = builder.Configuration.GetConnectionString("mysql");
+    options.UseMySql(sql, ServerVersion.AutoDetect(sql));
+});
 
 builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
